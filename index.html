@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Video de html5 personalisado</title>
+<meta charset="utf-8">
+</head>
+<body>
+<video id="mivid">
+    <source src="video1.mp4" type="">
+    </source>
+</video>
+<div class="capa controles">
+<img src="play.png" id="boton" onclick="repause();">
+    <div class="capa tiempo" onclick="buscar(event);">
+        <div class="capa slider" id="slider">
+        </div>
+    </div>
+</div>
+<style type="text/css">
+	body{
+		font-family: Arial;
+	}
+	.capa{
+		position: absolute;
+	}
+	.capa.controles {
+		background-color: #FF9800;
+		width: 600px;
+		height: 40px;
+		border-radius: 15px;
+		top: 360px;
+		box-shadow: 3px 3px 3px rgba(64, 64, 64, 0.52);
+	}
+	.capa.tiempo {
+		background-color: #673AB7;
+		width: 500px;
+		height: 10px;
+		left: 50px;
+		top: 15px;
+		box-shadow: 3px 3px 3px rgba(64, 64, 64, 0.52);
+	}
+	.capa.slider {
+		width: 15px;
+		background-color: #673AB7;
+		height: 25px;
+		top: -5px;
+		left: 0px;
+		box-shadow: 3px 3px 3px rgba(64, 64, 64, 0.52);
+	}
+	video{
+		width: 600px;
+		height: 400px;
+		background-color: #000;
+		box-shadow: 3px 3px 3px rgba(64, 64, 64, 0.52);
+	}
+</style>
+<script type="text/javascript">
+	var video = document.getElementById("mivid");
+	var slider = document.getElementById("slider");
+	var boton = document.getElementById("boton");
+	var duracion ;
+	var t = setInterval(obDuracion, 500);
+	function obDuracion () {
+		if(video.readyState > 0) {
+			duracion = video.duration;
+			clearInterval(t);
+		}
+	}
+	function repause() {
+		if(video.paused) {
+			boton.src = "pause.png";
+			video.play();
+			var tmp = setInterval(posision, 25);
+		} else {
+			boton.src = "play.png";
+			video.pause();
+			clearInterval(tmp);
+		}
+	}
+	function posision() {
+		var tiempoMax = 500;
+		slider.style.left = (video.currentTime * tiempoMax)/duracion+"px";
+	}
+	function buscar (event) {
+     var mx = event.clientX;
+     var x = mx-65;
+     slider.style.left = x+"px";
+     video.currentTime = (x * duracion)/500;
+	}
+</script>
+</body>
+</html>
